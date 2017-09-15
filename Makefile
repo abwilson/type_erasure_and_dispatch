@@ -22,6 +22,8 @@ CPPFLAGS = -I../include -I $(valgrind_home)/include $(macros)
 CXXFLAGS =  -g $(opt_flag) --std=c++14 -MMD -MP -MF $(<:%.cpp=%.d) -MT $@
 CXX = clang++
 
+all:
+
 benches = \
     bigOrribleSwitchInline \
     tradPolymorphism \
@@ -37,7 +39,7 @@ execs = \
 
 rapidjson = rapidjson/include
 
-all: $(execs)
+all: $(execs) bench_all
 
 $(execs): %: %.o
 	$(LINK.cc) $^ -o $@
@@ -67,7 +69,7 @@ test_data = msgs1M
 
 test_data_files = msgs100 msgs10K msgs1K msgs10 msgs100K msgs10M msgs1M
 
-%.bench: %
+%.bench: % $(test_data)
 	./$< $(test_data)
 
 test_data: $(test_data_files)
