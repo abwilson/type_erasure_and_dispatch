@@ -1,0 +1,8 @@
+Reading directly from cin
+bash-3.2$ ./reader < msgs1M
+ticks: 19,623,956,105
+bash-3.2$ mv Dispatcher.h IndexedBases.h
+bash-3.2$ ./reader < msgs1M
+ticks: 19774778685
+bash-3.2$ ./reader < msgs1M
+ticks: 19673481486

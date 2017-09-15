@@ -1,0 +1,95 @@
+Efficient Type Erasure for Dynamic Dispatching 
+
+# By using a little bit of template meta programming and a novel form of
+# type erasure I'll illustrate an efficient technique for dispatching
+# run time events to handler code.
+
+What do I mean by:
+
+Type Erasure?
+
+Any mechanism for making the type of an object invisible to higher level code.
+
+ - using void*    
+
+ - traditional runtime polymorphism
+
+ - compile time polymorphism
+
+ - std::variant etc
+ 
+
+Dynamic Dispatching?
+
+Any mechanism for selecting what a program does based on information only available at run time.
+
+Why are these related?
+
+You nearly always need the former to do the latter.
+
+
+Caveats
+
+This might all be really obvious to you in which case I'm sorry.
+
+This is only of interest:
+
+ - where nanosecond matter
+
+ - you are a nerd
+
+
+
+Dynamic Dispatching?
+
+We've all seen code like this:
+
+[itch_switch.c]
+
+Typical use case
+
+You read a message off the wire.
+
+The message has a field identifying the type of the message.
+
+You want to do something depending on the value of this type id.
+
+Example code based on Eurex T7 EOBI
+
+Not a proper feed handler.
+
+Keep track of total number size of
+
+orders - new, modify and delete
+executions - full and partial
+
+[EOBILayouts.h]
+
+What are the options
+
+A bunch of if statements
+
+A big switch
+
+An array of pointers to functions
+
+An array of pointers to a handler interface
+
+An array of lambdas held as std::function
+
+
+
+
+
+
+
+
+We've all seen code like this:
+
+C style switch statement dispatcher.
+
+//
+// Example C switch based dispatcher.
+//
+// https://github.com/csinitiative/fhce/blob/master/feeds/itch/multicast/common/fh_itch_parse.c
+//
