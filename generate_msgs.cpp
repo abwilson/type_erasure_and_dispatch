@@ -79,7 +79,8 @@ int main(const int argc, const char** argv)
     {
         return -1;
     }
-    auto size = std::atoi(argv[1]);
+    auto log2size = std::atoi(argv[1]);
+    uint64_t size = 1ull << log2size;
     
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution(Generator::minId, Generator::maxId);

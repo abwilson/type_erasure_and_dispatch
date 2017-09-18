@@ -28,7 +28,7 @@ struct MsgReader
             throw std::runtime_error("buggered");
         }
         const Msg* msg = reinterpret_cast<const Msg*>(buffer);
-        GatherStats<Msg>::gather(*msg);
+        StatsHolder()(msg);
         
         return buffer + sizeof(Msg);
     }
@@ -131,45 +131,55 @@ inline std::ostream& dumpHeader(std::ostream& os,
 }
 
 template<typename UnderTest>
-bool runTest(UnderTest& underTest, const std::string& buffer)
+bool runTest(const char* name, UnderTest& underTest, const std::string& buffer, int count = 1)
 {
-    std::chrono::duration<double> elapsed_seconds{};
-    uint64_t elapsedTicks{};
-    uint32_t seqNo{};
-    {
-        TickCounter tickCounter(elapsedTicks);
-        Timer timer(elapsed_seconds);
+    std::cout << "name,msgs,total time,usec/msg,total ticks,ticks/msg"
+              << std::endl;
 
-        for(auto p = buffer.data(); p < buffer.data() + buffer.size();)
+    for(; count; --count)
+    {
+        std::chrono::duration<double> elapsed_seconds{};
+        uint64_t elapsedTicks{};
+        uint32_t seqNo{};
         {
-            auto header = reinterpret_cast<const MessageHeaderCompT*>(p);
-            if(header->MsgSeqNum == seqNo )
+            TickCounter tickCounter(elapsedTicks);
+            Timer timer(elapsed_seconds);
+
+            for(auto p = buffer.data(); p < buffer.data() + buffer.size();)
             {
-                p = underTest.handle(header->TemplateID, p, *header, seqNo);
-                seqNo++;
-            }
-            else
-            {
-                return false;
+                auto header = reinterpret_cast<const MessageHeaderCompT*>(p);
+                if(header->MsgSeqNum == seqNo )
+                {
+                    p = underTest.handle(header->TemplateID, p, *header, seqNo);
+                    seqNo++;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
+        std::cout << name
+                  << "," << seqNo
+                  << "," << elapsed_seconds.count()
+                  << "," << (elapsed_seconds.count() / seqNo) * 1000000
+                  << "," << elapsedTicks
+                  << "," << elapsedTicks / seqNo
+                  << "," << StatsHolder::total << std::endl;
     }
-    std::cout << "msgs: " << seqNo << std::endl
-              << "time: " << elapsed_seconds.count() << std::endl
-              << "spm: "  << (elapsed_seconds.count() / seqNo) * 1000000 << "us" << std::endl
-              << "ticks: " << elapsedTicks << std::endl
-              << "tpm: " << elapsedTicks / seqNo << std::endl
-              << "total size: " << StatsHolder::total << std::endl;
-
     return true;
 }
 
 template<typename UnderTest>
-int runner(UnderTest& underTest, const int argc, const char** argv)
+int runner(const char* name, UnderTest& underTest, const int argc, const char** argv)
 {
-    if(argc != 2)
+    switch(argc)
     {
+    case 2:
+        return runTest(name, underTest, readTicks(argv[1])) ? 0 : 1;
+    case 3:
+        return runTest(name, underTest, readTicks(argv[1]), atoi(argv[2])) ? 0 : 1;
+    default:
         return -1;
     }
-    return runTest(underTest, readTicks(argv[1])) ? 0 : 1;
 }

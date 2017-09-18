@@ -1,5 +1,5 @@
 #include "reader.h"
-#include "CallThroughBaseClass.h"
+#include "TradPolymorphism.h"
 
 #include <stdexcept>
 #include <sstream>
@@ -8,7 +8,7 @@
 
 int main(const int argc, const char** argv)
 {
-    using Reader = ReaderT<CallThroughBaseClass, NullReader, MsgReader>;
+    using Reader = ReaderT<TradPolymorphism, NullReader, MsgReader>;
     Reader underTest;
-    return runner(underTest, argc, argv);
+    return runner("TradPolymorphism", underTest, argc, argv);
 }

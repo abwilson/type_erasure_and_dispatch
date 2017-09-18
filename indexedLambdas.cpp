@@ -11,6 +11,5 @@ int main(const int argc, const char** argv)
 {
     using Reader = ReaderT<IndexedMembers, NullReader, MsgReader>;
     Reader underTest;
-    return runner(underTest, argc, argv);
-//    return runTest(r, readTicks()) ? 0 : 1;
+    return runner("IndexedMembers", underTest, argc, argv);
 }
