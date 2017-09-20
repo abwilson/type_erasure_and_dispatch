@@ -21,6 +21,8 @@ benches = \
     indexedBases \
     indexedLambdas \
 
+bench_results = $(benches:%=%.bench.csv)
+
 $(benches): GatherStats.o MsgReader.o
 
 execs = \
@@ -36,7 +38,7 @@ $(execs): %: %.o
 
 .PHONY: clean
 clean:
-	- rm -f $(execs) $(objs) $(deps) $(test_data_files)
+	- rm -f $(execs) $(objs) $(deps) $(test_data_files) $(bench_results)
 
 .PHONY: force_run
 run: $(execs:%=%.run)
@@ -48,7 +50,7 @@ time: $(execs:%=%.time)
 	bash -c "time ./$<"
 
 .PHONY: bench_all
-bench_all: $(benches:%=%.bench.csv)
+bench_all: $(bench_results)
 
 test_data_files = \
     msgs.4.dat \
