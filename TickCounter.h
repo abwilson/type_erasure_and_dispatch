@@ -1,5 +1,4 @@
 #include <x86intrin.h>
-//#include <cpuid.h>
 
 #include <atomic>
 #include <iostream>
