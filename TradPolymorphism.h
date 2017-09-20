@@ -59,12 +59,4 @@ struct TradPolymorphism<Result(Args...), Default, Bases...>: Default
         }
         return Default::operator()(std::forward<Args>(args)...);
     }
-
-    void handleAll() const
-    {
-        for( auto&& i: handlers )
-        {
-            (this->*i)();
-        }
-    }
 };

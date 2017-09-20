@@ -37,12 +37,4 @@ struct IndexedBases<Result(Args...), Default, Bases...>: Default, Bases...
         }
         return Default::operator()(std::forward<Args>(args)...);
     }
-
-    void handleAll() const
-    {
-        for( auto&& i: handlers )
-        {
-            (this->*i)();
-        }
-    }
 };

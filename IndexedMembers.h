@@ -45,12 +45,4 @@ struct IndexedMembers<Result(Args...), Default, Bases...>
         }
         return std::get< Default >( handlers )(std::forward<Args>(args)...);
     }
-
-    void handleAll() const
-    {
-        for( auto&& i: handlers )
-        {
-            (this->*i)();
-        }
-    }
 };
