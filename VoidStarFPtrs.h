@@ -1,10 +1,7 @@
 #pragma once
 
 #include "FindByIdT.h"
-#include "EOBILayouts.h"
-#ifdef CONTIGUOUS_TIDS
-#  include "ContiguousTIDs.h"
-#endif
+#include "EOBIWrap.h"
 
 #include <array>
 

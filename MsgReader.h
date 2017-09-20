@@ -2,10 +2,7 @@
 
 #include "GatherStats.h"
 
-#include "EOBILayouts.h"
-#ifdef CONTIGUOUS_TIDS
-#  include "ContiguousTIDs.h"
-#endif
+#include "EOBIWrap.h"
 
 #include <iostream>
 

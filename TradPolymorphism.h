@@ -1,9 +1,6 @@
 #pragma once
 
-#include "EOBILayouts.h"
-#ifdef CONTIGUOUS_TIDS
-#  include "ContiguousTIDs.h"
-#endif
+#include "EOBIWrap.h"
 #include "MsgReader.h"
 #include "FindByIdT.h"
 

@@ -1,7 +1,4 @@
-#include "EOBILayouts.h"
-#ifdef CONTIGUOUS_TIDS
-#  include "ContiguousTIDs.h"
-#endif
+#include "EOBIWrap.h"
 #include "IndexedBases.h"
 
 #include <iostream>
