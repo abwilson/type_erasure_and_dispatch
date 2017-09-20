@@ -1,15 +1,10 @@
-#include "reader.h"
 #include "IndexedMembers.h"
-
-#include <stdexcept>
-#include <sstream>
-
-#include <chrono>
-
+#include "reader.h"
+#include "MsgReader.h"
 
 int main(const int argc, const char** argv)
 {
     using Reader = ReaderT<IndexedMembers, NullReader, MsgReader>;
     Reader underTest;
-    return runner("IndexedMembers", underTest, argc, argv);
+    return runner("IndexedLambdas", underTest, argc, argv);
 }

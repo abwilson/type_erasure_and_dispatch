@@ -1,7 +1,5 @@
-#include "reader.h"
-
-#include "reader.h"
 #include "BigOrribleSwitch.h"
+#include "reader.h"
 
 int main(const int argc, const char** argv)
 {

@@ -1,5 +1,10 @@
 #pragma once
 
+#include "EOBILayouts.h"
+#ifdef CONTIGUOUS_TIDS
+#  include "ContiguousTIDs.h"
+#endif
+#include "MsgReader.h"
 #include "FindByIdT.h"
 
 #include <memory>
@@ -32,7 +37,7 @@ template<typename Signature, typename Default, typename... Bases >
 struct TradPolymorphism;
 
 template<typename Result, typename... Args, typename Default, typename... Bases >
-struct TradPolymorphism<Result(Args...), Default, Bases...>: Default, Bases...
+struct TradPolymorphism<Result(Args...), Default, Bases...>: Default
 {
     static constexpr int minId = std::min( { Bases::id... } );
     static constexpr int maxId = std::max( { Bases::id... } );

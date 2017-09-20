@@ -6,7 +6,7 @@ execs		:= $(srcs.cpp:%.cpp=%)   $(srcs.c:%.cpp=%)
 
 opt_flag = -O2
 
-CPPFLAGS =
+CPPFLAGS = -DCONTIGUOUS_TIDS
 CXXFLAGS = -g $(opt_flag) --std=c++14 -MMD -MP -MF $(<:%.cpp=%.d) -MT $@
 CXX = clang++
 
@@ -15,11 +15,13 @@ all:
 
 benches = \
     bigOrribleSwitchInline \
+    cascadingIfs \
+    voidStarFPtrs \
     tradPolymorphism \
     indexedBases \
-    indexedLambdas
+    indexedLambdas \
 
-$(benches): GatherStats.o
+$(benches): GatherStats.o MsgReader.o
 
 execs = \
     generate_msgs \

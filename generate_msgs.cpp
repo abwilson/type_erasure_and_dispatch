@@ -1,4 +1,7 @@
 #include "EOBILayouts.h"
+#ifdef CONTIGUOUS_TIDS
+#  include "ContiguousTIDs.h"
+#endif
 #include "IndexedBases.h"
 
 #include <iostream>
@@ -47,29 +50,29 @@ struct NullGenerator
 using Generator = IndexedBases<
     std::ostream& (std::ostream&, uint32_t&),
     NullGenerator,
-    MsgGenerator<AddComplexInstrumentT,  13400>, // TID_ADD_COMPLEX_INSTRUMENT
-    MsgGenerator<AuctionBBOT,            13500>, // TID_AUCTION_BBO
-    MsgGenerator<AuctionClearingPriceT,  13501>, // TID_AUCTION_CLEARING_PRICE
-    MsgGenerator<CrossRequestT,          13502>, // TID_CROSS_REQUEST
-    MsgGenerator<ExecutionSummaryT,      13202>, // TID_EXECUTION_SUMMARY
-    MsgGenerator<FullOrderExecutionT,    13104>, // TID_FULL_ORDER_EXECUTION
-    MsgGenerator<HeartbeatT,             13001>, // TID_HEARTBEAT
-    MsgGenerator<InstrumentStateChangeT, 13301>, // TID_INSTRUMENT_STATE_CHANGE
-    MsgGenerator<InstrumentSummaryT,     13601>, // TID_INSTRUMENT_SUMMARY
-    MsgGenerator<OrderAddT,              13100>, // TID_ORDER_ADD
-    MsgGenerator<OrderDeleteT,           13102>, // TID_ORDER_DELETE
-    MsgGenerator<OrderMassDeleteT,       13103>, // TID_ORDER_MASS_DELETE
-    MsgGenerator<OrderModifyT,           13101>, // TID_ORDER_MODIFY
-    MsgGenerator<OrderModifySamePrioT,   13106>, // TID_ORDER_MODIFY_SAME_PRIO
-    MsgGenerator<PacketHeaderT,          13002>, // TID_PACKET_HEADER
-    MsgGenerator<PartialOrderExecutionT, 13105>, // TID_PARTIAL_ORDER_EXECUTION
-    MsgGenerator<ProductStateChangeT,    13300>, // TID_PRODUCT_STATE_CHANGE
-    MsgGenerator<ProductSummaryT,        13600>, // TID_PRODUCT_SUMMARY
-    MsgGenerator<QuoteRequestT,          13503>,  // TID_QUOTE_REQUEST
-    MsgGenerator<SnapshotOrderT,         13602>,  // TID_SNAPSHOT_ORDER
-    MsgGenerator<TopOfBookT,             13504>,  // TID_TOP_OF_BOOK
-    MsgGenerator<TradeReportT,           13201>,  // TID_TRADE_REPORT
-    MsgGenerator<TradeReversalT,         13200>>; // TID_TRADE_REVERSAL
+    MsgGenerator<AddComplexInstrumentT,  TID_ADD_COMPLEX_INSTRUMENT>,
+    MsgGenerator<AuctionBBOT,            TID_AUCTION_BBO>,
+    MsgGenerator<AuctionClearingPriceT,  TID_AUCTION_CLEARING_PRICE>,
+    MsgGenerator<CrossRequestT,          TID_CROSS_REQUEST>,
+    MsgGenerator<ExecutionSummaryT,      TID_EXECUTION_SUMMARY>,
+    MsgGenerator<FullOrderExecutionT,    TID_FULL_ORDER_EXECUTION>,
+    MsgGenerator<HeartbeatT,             TID_HEARTBEAT>,
+    MsgGenerator<InstrumentStateChangeT, TID_INSTRUMENT_STATE_CHANGE>,
+    MsgGenerator<InstrumentSummaryT,     TID_INSTRUMENT_SUMMARY>,
+    MsgGenerator<OrderAddT,              TID_ORDER_ADD>,
+    MsgGenerator<OrderDeleteT,           TID_ORDER_DELETE>,
+    MsgGenerator<OrderMassDeleteT,       TID_ORDER_MASS_DELETE>,
+    MsgGenerator<OrderModifyT,           TID_ORDER_MODIFY>,
+    MsgGenerator<OrderModifySamePrioT,   TID_ORDER_MODIFY_SAME_PRIO>,
+    MsgGenerator<PacketHeaderT,          TID_PACKET_HEADER>,
+    MsgGenerator<PartialOrderExecutionT, TID_PARTIAL_ORDER_EXECUTION>,
+    MsgGenerator<ProductStateChangeT,    TID_PRODUCT_STATE_CHANGE>,
+    MsgGenerator<ProductSummaryT,        TID_PRODUCT_SUMMARY>,
+    MsgGenerator<QuoteRequestT,          TID_QUOTE_REQUEST>,
+    MsgGenerator<SnapshotOrderT,         TID_SNAPSHOT_ORDER>,
+    MsgGenerator<TopOfBookT,             TID_TOP_OF_BOOK>,
+    MsgGenerator<TradeReportT,           TID_TRADE_REPORT>,
+    MsgGenerator<TradeReversalT,         TID_TRADE_REVERSAL>>;
 
 Generator g;
 

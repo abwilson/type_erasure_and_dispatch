@@ -1,6 +1,9 @@
 #pragma once
 
 #include "EOBILayouts.h"
+#ifdef CONTIGUOUS_TIDS
+#  include "ContiguousTIDs.h"
+#endif
 
 #include "TickCounter.h"
 #include "GatherStats.h"
@@ -8,43 +11,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-
-template<typename Msg, int tid>
-struct MsgReader
-{
-    static constexpr int id = tid;
-
-    const char* operator()(
-        const char* buffer,
-        const MessageHeaderCompT& header,
-        uint32_t& seqNo) const
-    {
-        if(header.BodyLen != sizeof(Msg))
-        {
-            std::cerr << "Length mismatch: " << header.BodyLen
-                      << " != " << sizeof(Msg)
-                      << std::endl;
-
-            throw std::runtime_error("buggered");
-        }
-        const Msg* msg = reinterpret_cast<const Msg*>(buffer);
-        StatsHolder()(msg);
-        
-        return buffer + sizeof(Msg);
-    }
-};
-
-struct NullReader
-{
-    const char* operator()(
-        const char* buffer,
-        const MessageHeaderCompT& header,
-        uint32_t& seqNo) const
-    {
-        std::cout << "Unknown" << std::endl;
-        return buffer;
-    }
-};
 
 template<template<typename...> class Dispatcher,
          typename Default,
@@ -175,11 +141,8 @@ int runner(const char* name, UnderTest& underTest, const int argc, const char** 
 {
     switch(argc)
     {
-    case 2:
-        return runTest(name, underTest, readTicks(argv[1])) ? 0 : 1;
-    case 3:
-        return runTest(name, underTest, readTicks(argv[1]), atoi(argv[2])) ? 0 : 1;
-    default:
-        return -1;
+    case 2:  return runTest(name, underTest, readTicks(argv[1])) ? 0 : 1;
+    case 3:  return runTest(name, underTest, readTicks(argv[1]), atoi(argv[2])) ? 0 : 1;
+    default: return -1;
     }
 }

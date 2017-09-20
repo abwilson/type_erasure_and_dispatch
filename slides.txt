@@ -4,22 +4,20 @@ Efficient Type Erasure for Dynamic Dispatching
 # type erasure I'll illustrate an efficient technique for dispatching
 # run time events to handler code.
 
-What do I mean by:
-
-Type Erasure?
+*** What do I mean by Type Erasure?
 
 Any mechanism for making the type of an object invisible to higher level code.
 
- - using void*    
+ - void*    
 
  - traditional runtime polymorphism
 
  - compile time polymorphism
 
- - std::variant etc
+ - std::variant, etc
  
 
-Dynamic Dispatching?
+*** What do I mean by Dynamic Dispatching?
 
 Any mechanism for selecting what a program does based on information only available at run time.
 
@@ -28,65 +26,78 @@ Why are these related?
 You nearly always need the former to do the latter.
 
 
-Caveats
+
+*** Caveats
+
+If you disagree with these definitions fine. For the duration of this
+talk make a mental indirection to my definition.
 
 This might all be really obvious to you in which case I'm sorry.
 
-This is only of interest:
+This is only of academic interest unless:
 
- - where nanosecond matter
+ - nanoseconds really matter
 
  - you are a nerd
 
 
 
-Dynamic Dispatching?
+*** Dynamic Dispatching?
 
 We've all seen code like this:
 
 [itch_switch.c]
 
-Typical use case
+*** Typical use case
 
-You read a message off the wire.
+ 1) read a message
 
-The message has a field identifying the type of the message.
+ 2) Pull out a type ID field
 
-You want to do something depending on the value of this type id.
+ 3) Pass the message to a "handler" for this type
 
-Example code based on Eurex T7 EOBI
 
-Not a proper feed handler.
+*** For this demo
 
-Keep track of total number size of
+Code based on Eurex T7 EOBI
 
-orders - new, modify and delete
-executions - full and partial
+ - [EOBILayouts.h]
 
-[EOBILayouts.h]
+Not a proper feed handler
 
-What are the options
+Handler logic only serves to stop optimizer removing the code.
+
+ - Keeps track of total sizes
+
+Test data is 2^20 randomly generated messages
+
+
+*** What are the options
 
 A bunch of if statements
 
-A big switch
+A big switch - the defacto standard
 
-An array of pointers to functions
+An array of pointers to functions - good old C
 
-An array of pointers to a handler interface
+An array of pointers to a handler base class
 
 An array of lambdas held as std::function
 
 
+*** The Big 'Orrible Switch
+
+Rumour has it that compilers can generate jump tables
+
+In practise usually cascading conditional jumps
+
+Gcc seems to generate a binary chop - godbot example
+
+No type erasure
+
+Handlers can be inlined.
 
 
-
-
-
-
-We've all seen code like this:
-
-C style switch statement dispatcher.
 
 //
 // Example C switch based dispatcher.
