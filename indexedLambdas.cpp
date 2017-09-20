@@ -7,10 +7,10 @@
 #include <functional>
 
 template<typename Signature, typename Default, typename... Bases >
-struct IndexedMembers;
+struct IndexedLambdas;
 
 template<typename Result, typename... Args, typename Default, typename... Bases >
-struct IndexedMembers<Result(Args...), Default, Bases...>
+struct IndexedLambdas<Result(Args...), Default, Bases...>
 {
     std::tuple< Default, Bases... > handlers;
     
@@ -35,7 +35,7 @@ struct IndexedMembers<Result(Args...), Default, Bases...>
 
     const Handlers handlerFs{ makeHandlers( std::make_index_sequence< size >{} ) };
 
-    constexpr IndexedMembers() {};
+    constexpr IndexedLambdas() {};
 
     Result handle( int i, Args... args  ) const
     {
@@ -47,10 +47,9 @@ struct IndexedMembers<Result(Args...), Default, Bases...>
     }
 };
 
-
 int main(const int argc, const char** argv)
 {
-    using Reader = ReaderT<IndexedMembers, NullReader, MsgReader>;
+    using Reader = ReaderT<IndexedLambdas, NullReader, MsgReader>;
     Reader underTest;
     return runner("IndexedLambdas", underTest, argc, argv);
 }
