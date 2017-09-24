@@ -24,11 +24,11 @@ for f in files:
             # print line
             bench, msgs, t, _1, c, _2, _3 = line
             times.append(float(t))
-            cycles.append(int(c))
+            cycles.append(float(c))
 
         msgs = int(msgs)
 
         def perMsg(v):
             return (v / msgs) * 1000000
 
-        print "%s %fms %fms %d %d" % (name, perMsg(numpy.mean(times)), perMsg(numpy.std(times)), numpy.mean(cycles) / msgs, numpy.std(cycles) / msgs)
+        print "%s,%f,%f,%f,%f" % (name, perMsg(numpy.mean(times)), perMsg(numpy.std(times)), numpy.mean(cycles) / msgs, numpy.std(cycles) / msgs)

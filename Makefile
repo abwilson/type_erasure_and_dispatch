@@ -14,12 +14,13 @@ CXX = clang++
 all:
 
 benches = \
-    bigOrribleSwitchInline \
     cascadingIfs \
+    bigOrribleSwitchInline \
     voidStarFPtrs \
+    chainOfResponsibility \
     tradPolymorphism \
-    indexedBases \
     indexedLambdas \
+    indexedBases \
 
 bench_results = $(benches:%=%.bench.csv)
 
@@ -51,6 +52,9 @@ time: $(execs:%=%.time)
 
 .PHONY: bench_all
 bench_all: $(bench_results)
+
+stats: $(bench_results)
+	python analyse.py $^
 
 test_data_files = \
     msgs.4.dat \
